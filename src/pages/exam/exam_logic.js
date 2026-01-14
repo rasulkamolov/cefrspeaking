@@ -19,9 +19,12 @@ const actionBtn = document.getElementById('action-btn');
 const recIcon = document.getElementById('rec-icon');
 const qCurrent = document.getElementById('q-current');
 const notepadArea = document.getElementById('notepad-area');
-const logicSidebar = document.getElementById('logic-sidebar');
-const forPoints = document.getElementById('for-points');
-const againstPoints = document.getElementById('against-points');
+
+// Part 3 Elements
+const c1Container = document.getElementById('c1-container');
+const c1Topic = document.getElementById('c1-topic');
+const c1ForList = document.getElementById('c1-for-list');
+const c1AgainstList = document.getElementById('c1-against-list');
 
 // Circle Params
 const radius = 40;
@@ -60,7 +63,6 @@ function setupRecorder(stream) {
 }
 
 async function uploadAudio(blob) {
-    // Show uploading state if needed
     const formData = new FormData();
     formData.append('audio', blob, 'recording.webm');
     formData.append('submission_id', submissionId);
@@ -71,11 +73,9 @@ async function uploadAudio(blob) {
             method: 'POST',
             body: formData
         });
-        // Proceed to next question only after upload initiated (or completed for strictness)
         nextQuestion();
     } catch (e) {
         console.error("Upload failed", e);
-        // Retry logic could go here
         nextQuestion();
     }
 }
@@ -98,7 +98,7 @@ function loadQuestion(index) {
     // Reset UI
     questionArea.innerHTML = '';
     notepadArea.classList.add('hidden');
-    logicSidebar.classList.add('hidden');
+    c1Container.classList.add('hidden');
 
     // Parse JSON content if needed
     try {
@@ -109,79 +109,78 @@ function loadQuestion(index) {
     // Determine UI based on Part
     if (currentPart === '1.1') {
         // Simple Text
-        questionArea.innerHTML = `<h2 class="text-3xl font-bold mb-4">${typeof content === 'string' ? content : content[0]}</h2>`;
+        questionArea.innerHTML = `<h2 class="text-3xl font-bold mb-4 text-textMain">${typeof content === 'string' ? content : content[0]}</h2>`;
         timeLeft = 30;
         isPrepTime = false;
     }
     else if (currentPart === '1.2') {
         // Image + Text
-        // UPDATED: Now supports distinct questions, displaying just the content string
         const prompt = Array.isArray(content) ? content[0] : content;
 
         let imgHtml = '';
         if (image) {
-            // Adjust path: strictly relative from browser perspective
-            // runner.php is in src/pages/exam
-            // images in uploads/images (root/uploads/images) or assets (root/assets)
-            // But wait, seed said 'assets/images/...'
-            // We need to resolve path. Assuming 'assets' means from root.
-            // Relative from src/pages/exam -> ../../../
-            imgHtml = `<img src="../../../${image}" class="h-64 mx-auto rounded-lg shadow-lg mb-4 object-contain">`;
+            imgHtml = `<img src="../../../${image}" class="h-64 mx-auto rounded-lg shadow-md mb-4 object-contain bg-gray-50 p-2">`;
         }
 
         questionArea.innerHTML = `
             ${imgHtml}
-            <h2 class="text-2xl font-bold mb-4">${prompt}</h2>
+            <h2 class="text-2xl font-bold mb-4 text-textMain">${prompt}</h2>
         `;
         timeLeft = 30;
         isPrepTime = false;
     }
     else if (currentPart === '2') {
         // Part 2: Prep + Monologue
-        // Logic: 1 min prep (notepad) -> 2 min record
         if (!isPrepTime) {
             // Start Prep Phase
             isPrepTime = true;
             timeLeft = 60; // 1 min prep
 
-            questionArea.innerHTML = `<h2 class="text-3xl font-bold mb-4">Topic: ${content}</h2>`;
+            // Topic + Optional Image
+            let prepHtml = `<h2 class="text-3xl font-bold mb-4 text-textMain">Topic: ${typeof content === 'string' ? content : (content.topic || content)}</h2>`;
             if (image) {
-                questionArea.innerHTML += `<img src="../../../${image}" class="h-48 mx-auto rounded-lg shadow-lg mb-4 object-contain">`;
+                prepHtml += `<img src="../../../${image}" class="h-48 mx-auto rounded-lg shadow-md mb-4 object-contain bg-gray-50 p-2">`;
             }
+            questionArea.innerHTML = prepHtml;
 
             notepadArea.classList.remove('hidden');
 
             // Visual indicator for Prep
-            actionBtn.classList.add('opacity-50', 'cursor-not-allowed');
-            recIcon.className = "w-8 h-8 bg-yellow-400 rounded-full"; // Yellow for prep
+            actionBtn.classList.add('opacity-50', 'cursor-not-allowed', 'ring-yellow-100');
+            actionBtn.classList.remove('bg-red-500', 'hover:ring-red-100');
+            actionBtn.classList.add('bg-yellow-500');
+            recIcon.className = "w-8 h-8 bg-white rounded-full opacity-50";
 
             startTimer(() => {
                 // End Prep, Start Recording
                 isPrepTime = false;
                 timeLeft = 120; // 2 min
-                notepadArea.classList.add('hidden'); // Discard notes
-                actionBtn.classList.remove('opacity-50', 'cursor-not-allowed');
+                notepadArea.classList.add('hidden');
+
+                // Reset Button Style
+                actionBtn.classList.remove('opacity-50', 'cursor-not-allowed', 'ring-yellow-100', 'bg-yellow-500');
+                actionBtn.classList.add('bg-red-500', 'hover:ring-red-100');
+                recIcon.className = "w-8 h-8 bg-white rounded-sm";
+
                 startRecordingPhase();
             });
-            return; // Exit here, timer handles transition
+            return;
         }
     }
     else if (currentPart === '3') {
         // C1: Debate
-        // Content is object {topic, for_prompts[], against_prompts[]}
         const topic = content.topic || "Debate Topic";
         const fors = content.for_prompts || [];
         const againsts = content.against_prompts || [];
 
-        questionArea.innerHTML = `<h2 class="text-4xl font-bold mb-8">${topic}</h2>`;
+        c1Topic.innerText = topic;
+        c1ForList.innerHTML = fors.map(p => `<li class="p-2 bg-green-50 rounded text-green-900 font-medium text-sm">• ${p}</li>`).join('');
+        c1AgainstList.innerHTML = againsts.map(p => `<li class="p-2 bg-red-50 rounded text-red-900 font-medium text-sm">• ${p}</li>`).join('');
 
-        // Populate Sidebar
-        forPoints.innerHTML = fors.map(p => `<li>${p}</li>`).join('');
-        againstPoints.innerHTML = againsts.map(p => `<li>${p}</li>`).join('');
-        logicSidebar.classList.remove('hidden');
-        questionArea.classList.add('mr-64'); // Make room for sidebar
+        c1Container.classList.remove('hidden');
+        questionArea.appendChild(c1Container); // Ensure it's inside if not already
 
-        timeLeft = 120; // Standard C1 time? Req said "Logic: Students must provide arguments...". Assuming 2 min.
+        timeLeft = 120;
         isPrepTime = false;
     }
 
@@ -189,7 +188,6 @@ function loadQuestion(index) {
 }
 
 function startRecordingPhase() {
-    // Visual Countdown Overlay
     overlay.classList.remove('hidden');
     let count = 3;
     countdownEl.innerText = count;
@@ -202,7 +200,7 @@ function startRecordingPhase() {
         } else {
             clearInterval(countInt);
             overlay.classList.add('hidden');
-            startTimer(nextQuestion); // Timer ends -> Next
+            startTimer(nextQuestion);
             if (!isPrepTime) {
                 startRecording();
             }
@@ -215,9 +213,8 @@ function startRecording() {
     audioChunks = [];
     mediaRecorder.start();
 
-    // UI Update
-    recIcon.className = "w-8 h-8 bg-white rounded-sm"; // Stop square
-    actionBtn.onclick = stopEarly; // Allow manual stop?
+    recIcon.className = "w-8 h-8 bg-white rounded-sm animate-pulse";
+    actionBtn.onclick = stopEarly;
 }
 
 function stopEarly() {
@@ -225,7 +222,6 @@ function stopEarly() {
         clearInterval(timerInterval);
         mediaRecorder.stop();
         isRecording = false;
-        // nextQuestion called by mediaRecorder.onstop -> upload -> nextQuestion
     }
 }
 
@@ -238,13 +234,14 @@ function startTimer(onComplete) {
         current--;
         updateTimerUI(current, initial);
 
-        // Color change logic (Green -> Red)
         if (current <= 10) {
-            timerRing.classList.remove('text-neon');
-            timerRing.classList.add('text-red-500');
+            timerRing.classList.remove('text-primary');
+            timerRing.classList.add('text-danger');
+            timerText.classList.add('text-danger');
         } else {
-            timerRing.classList.add('text-neon');
-            timerRing.classList.remove('text-red-500');
+            timerRing.classList.add('text-primary');
+            timerRing.classList.remove('text-danger');
+            timerText.classList.remove('text-danger');
         }
 
         if (current <= 0) {
@@ -270,5 +267,4 @@ function nextQuestion() {
     loadQuestion(currentQuestionIndex);
 }
 
-// Start
 init();

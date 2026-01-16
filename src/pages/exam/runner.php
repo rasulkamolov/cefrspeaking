@@ -46,7 +46,7 @@ if ($mode === 'full') {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Jules - Exam Room</title>
+    <title>Oxford CEFR Speaking - Exam Room</title>
     <?php require_once __DIR__ . '/../../includes/theme.php'; ?>
     <style>
         .progress-ring__circle {

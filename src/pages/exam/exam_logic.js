@@ -151,13 +151,21 @@ function loadQuestion(index) {
             timeLeft = 60; // 1 min prep
 
             // Topic + Optional Image
-            let prepHtml = `<h2 class="text-3xl font-bold mb-4 text-textMain">Topic: ${typeof content === 'string' ? content : (content.topic || content)}</h2>`;
+            let topicText = typeof content === 'string' ? content : (content.topic || content);
+            let prepHtml = `<h2 class="text-3xl font-bold mb-4 text-textMain">Topic: ${topicText}</h2>`;
+
+            if (content.points && Array.isArray(content.points)) {
+                prepHtml += `<ul class="text-left text-lg list-disc list-inside bg-gray-50 p-4 rounded-lg mb-4 space-y-2">`;
+                content.points.forEach(p => {
+                    prepHtml += `<li>${p}</li>`;
+                });
+                prepHtml += `</ul>`;
+            }
+
             if (image) {
                 prepHtml += `<img src="../../../${image}" class="h-48 mx-auto rounded-lg shadow-md mb-4 object-contain bg-gray-50 p-2">`;
             }
             questionArea.innerHTML = prepHtml;
-
-            // Removed Notepad Logic
 
             // Visual indicator for Prep
             actionBtn.classList.add('opacity-50', 'cursor-not-allowed', 'ring-yellow-100');
@@ -181,20 +189,43 @@ function loadQuestion(index) {
         }
     }
     else if (currentPart === '3') {
-        // C1: Debate
-        const topic = content.topic || "Debate Topic";
-        const fors = content.for_prompts || [];
-        const againsts = content.against_prompts || [];
+        // C1: Debate - Now with Prep Phase
+        if (!isPrepTime) {
+            // Start Prep Phase
+            isPrepTime = true;
+            timeLeft = 60; // 1 min prep
 
-        c1Topic.innerText = topic;
-        c1ForList.innerHTML = fors.map(p => `<li class="p-2 bg-green-50 rounded text-green-900 font-medium text-sm">• ${p}</li>`).join('');
-        c1AgainstList.innerHTML = againsts.map(p => `<li class="p-2 bg-red-50 rounded text-red-900 font-medium text-sm">• ${p}</li>`).join('');
+            const topic = content.topic || "Debate Topic";
+            const fors = content.for_prompts || [];
+            const againsts = content.against_prompts || [];
 
-        c1Container.classList.remove('hidden');
-        questionArea.appendChild(c1Container);
+            c1Topic.innerText = topic;
+            c1ForList.innerHTML = fors.map(p => `<li class="p-2 bg-green-50 rounded text-green-900 font-medium text-sm">• ${p}</li>`).join('');
+            c1AgainstList.innerHTML = againsts.map(p => `<li class="p-2 bg-red-50 rounded text-red-900 font-medium text-sm">• ${p}</li>`).join('');
 
-        timeLeft = 120;
-        isPrepTime = false;
+            c1Container.classList.remove('hidden');
+            questionArea.appendChild(c1Container);
+
+            // Visual indicator for Prep
+            actionBtn.classList.add('opacity-50', 'cursor-not-allowed', 'ring-yellow-100');
+            actionBtn.classList.remove('bg-red-500', 'hover:ring-red-100');
+            actionBtn.classList.add('bg-yellow-500');
+            recIcon.className = "w-8 h-8 bg-white rounded-full opacity-50";
+
+            startTimer(() => {
+                // End Prep, Start Recording
+                isPrepTime = false;
+                timeLeft = 120; // 2 min (Debate)
+
+                // Reset Button Style
+                actionBtn.classList.remove('opacity-50', 'cursor-not-allowed', 'ring-yellow-100', 'bg-yellow-500');
+                actionBtn.classList.add('bg-red-500', 'hover:ring-red-100');
+                recIcon.className = "w-8 h-8 bg-white rounded-sm";
+
+                startRecordingPhase();
+            });
+            return;
+        }
     }
 
     startRecordingPhase();

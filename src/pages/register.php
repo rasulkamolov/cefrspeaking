@@ -28,7 +28,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Jules - Register</title>
+    <title>Oxford CEFR Speaking - Register</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
         tailwind.config = {
@@ -45,7 +45,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 </head>
 <body class="bg-midnight text-white flex items-center justify-center h-screen">
     <div class="w-full max-w-md p-8 bg-gray-800 rounded-lg shadow-lg">
-        <h1 class="text-3xl font-bold mb-6 text-center text-neon">Jules</h1>
+        <h1 class="text-3xl font-bold mb-6 text-center text-neon">Oxford CEFR Speaking</h1>
         <h2 class="text-xl mb-4 text-center">Register</h2>
 
         <?php if ($error): ?>

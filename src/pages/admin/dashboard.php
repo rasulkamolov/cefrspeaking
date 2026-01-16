@@ -21,14 +21,14 @@ $pendingCount = $submissionCount - $gradedCount;
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Jules - Admin Dashboard</title>
+    <title>Oxford CEFR Speaking - Admin Dashboard</title>
     <?php require_once __DIR__ . '/../../includes/theme.php'; ?>
 </head>
 <body class="bg-background text-textMain font-sans">
 
     <nav class="bg-white shadow-sm border-b border-gray-200 p-4">
         <div class="container mx-auto flex justify-between items-center">
-            <h1 class="text-2xl font-bold text-primary">Jules <span class="text-sm text-textMuted font-normal">Command Center</span></h1>
+            <h1 class="text-2xl font-bold text-primary">Oxford CEFR Speaking <span class="text-sm text-textMuted font-normal">Command Center</span></h1>
             <div>
                 <span class="mr-4 text-textMuted">Welcome, Admin</span>
                 <a href="../../includes/logout_handler.php" class="text-textMuted hover:text-primary">Logout</a>

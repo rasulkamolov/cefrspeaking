@@ -11,7 +11,7 @@ $tests = $stmt->fetchAll();
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Jules - Dashboard</title>
+    <title>Oxford CEFR Speaking - Dashboard</title>
     <?php require_once __DIR__ . '/../../includes/theme.php'; ?>
 </head>
 <body class="bg-background text-textMain font-sans pb-20">

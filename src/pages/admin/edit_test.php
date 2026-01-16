@@ -48,7 +48,7 @@ $partTitles = [
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Jules - Edit Test</title>
+    <title>Oxford CEFR Speaking - Edit Test</title>
     <?php require_once __DIR__ . '/../../includes/theme.php'; ?>
 </head>
 <body class="bg-background text-textMain font-sans pb-20">
@@ -56,7 +56,7 @@ $partTitles = [
     <nav class="bg-white shadow-sm border-b border-gray-200 p-4 sticky top-0 z-20">
         <div class="container mx-auto flex justify-between items-center">
              <div class="flex items-center space-x-4">
-                <h1 class="text-2xl font-bold text-primary">Jules</h1>
+                <h1 class="text-2xl font-bold text-primary">Oxford CEFR Speaking</h1>
                 <a href="manage_tests.php" class="text-textMuted hover:text-primary">All Tests</a>
                 <span class="text-gray-300">/</span>
                 <span class="text-textMain font-medium">Edit Test #<?php echo $testId; ?></span>

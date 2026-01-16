@@ -26,7 +26,7 @@ $submissionId = $pdo->lastInsertId();
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Jules - Start Exam</title>
+    <title>Oxford CEFR Speaking - Start Exam</title>
     <?php require_once __DIR__ . '/../../includes/theme.php'; ?>
 </head>
 <body class="bg-background text-textMain font-sans h-screen flex flex-col items-center justify-center p-6">

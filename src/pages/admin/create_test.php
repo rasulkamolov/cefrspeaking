@@ -27,7 +27,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Jules - Create Test</title>
+    <title>Oxford CEFR Speaking - Create Test</title>
     <?php require_once __DIR__ . '/../../includes/theme.php'; ?>
 </head>
 <body class="bg-background text-textMain font-sans">
@@ -35,7 +35,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <nav class="bg-white shadow-sm border-b border-gray-200 p-4">
         <div class="container mx-auto flex justify-between items-center">
              <div class="flex items-center space-x-4">
-                <h1 class="text-2xl font-bold text-primary">Jules</h1>
+                <h1 class="text-2xl font-bold text-primary">Oxford CEFR Speaking</h1>
                 <a href="dashboard.php" class="text-textMuted hover:text-primary">Dashboard</a>
                 <span class="text-gray-300">/</span>
                 <span class="text-textMain font-medium">Create Test</span>

@@ -106,7 +106,7 @@ if ($part === '3' && $contentVal) {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Jules - Edit Question</title>
+    <title>Oxford CEFR Speaking - Edit Question</title>
     <?php require_once __DIR__ . '/../../includes/theme.php'; ?>
 </head>
 <body class="bg-background text-textMain font-sans pb-20">
@@ -114,7 +114,7 @@ if ($part === '3' && $contentVal) {
     <nav class="bg-white shadow-sm border-b border-gray-200 p-4 sticky top-0 z-20">
         <div class="container mx-auto flex justify-between items-center">
              <div class="flex items-center space-x-4">
-                <h1 class="text-2xl font-bold text-primary">Jules</h1>
+                <h1 class="text-2xl font-bold text-primary">Oxford CEFR Speaking</h1>
                 <a href="edit_test.php?test_id=<?php echo $testId; ?>" class="text-textMuted hover:text-primary">Back to Test</a>
                 <span class="text-gray-300">/</span>
                 <span class="text-textMain font-medium"><?php echo $questionId ? 'Edit' : 'Add'; ?> Question (Part <?php echo $part; ?>)</span>

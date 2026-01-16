@@ -150,7 +150,7 @@ if ($mode === 'full') {
                 </svg>
                 <div class="absolute inset-0 flex items-center justify-center font-mono font-bold text-lg text-textMain" id="timer-text">30</div>
             </div>
-            <div class="text-xs text-textMuted hidden md:block font-medium">Time<br>Remaining</div>
+            <div id="timer-label" class="text-xs text-textMuted hidden md:block font-medium">Time<br>Remaining</div>
         </div>
 
         <!-- Record Button -->

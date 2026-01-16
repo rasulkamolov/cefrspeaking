@@ -18,6 +18,7 @@ const timerRing = document.getElementById('timer-ring');
 const actionBtn = document.getElementById('action-btn');
 const recIcon = document.getElementById('rec-icon');
 const qCurrent = document.getElementById('q-current');
+const timerLabel = document.getElementById('timer-label'); // Added ID in runner.php
 
 // Part 3 Elements
 const c1Container = document.getElementById('c1-container');
@@ -44,12 +45,6 @@ function init() {
         })
         .catch(err => {
             console.warn("Microphone access denied or error:", err);
-            // We can show a softer UI message if needed, but for now we proceed.
-            // Some browsers require interaction before gUM works, or if not https.
-            // In a real app we'd block the start.
-            // The user said "again it is asking mic enable even it is enabled", implies annoying prompts.
-            // If we are here, we either have stream or we don't.
-            // If we don't, recording will fail later.
         });
 }
 
@@ -117,6 +112,7 @@ function loadQuestion(index) {
         questionArea.innerHTML = `<h2 class="text-3xl font-bold mb-4 text-textMain">${typeof content === 'string' ? content : content[0]}</h2>`;
         timeLeft = 30;
         isPrepTime = false;
+        startPhase(nextQuestion);
     }
     else if (currentPart === '1.2') {
         // Two Images + Text
@@ -142,6 +138,7 @@ function loadQuestion(index) {
         `;
         timeLeft = 30; // 30s per question (or pair)
         isPrepTime = false;
+        startPhase(nextQuestion);
     }
     else if (currentPart === '2') {
         // Part 2: Prep + Monologue - NO NOTEPAD
@@ -173,7 +170,8 @@ function loadQuestion(index) {
             actionBtn.classList.add('bg-yellow-500');
             recIcon.className = "w-8 h-8 bg-white rounded-full opacity-50";
 
-            startTimer(() => {
+            // Start Prep Countdown, then Prep Timer
+            startPhase(() => {
                 // End Prep, Start Recording
                 isPrepTime = false;
                 timeLeft = 120; // 2 min
@@ -183,7 +181,8 @@ function loadQuestion(index) {
                 actionBtn.classList.add('bg-red-500', 'hover:ring-red-100');
                 recIcon.className = "w-8 h-8 bg-white rounded-sm";
 
-                startRecordingPhase();
+                // Start Recording Countdown, then Recording Timer
+                startPhase(nextQuestion);
             });
             return;
         }
@@ -212,7 +211,8 @@ function loadQuestion(index) {
             actionBtn.classList.add('bg-yellow-500');
             recIcon.className = "w-8 h-8 bg-white rounded-full opacity-50";
 
-            startTimer(() => {
+            // Start Prep Countdown, then Prep Timer
+            startPhase(() => {
                 // End Prep, Start Recording
                 isPrepTime = false;
                 timeLeft = 120; // 2 min (Debate)
@@ -222,20 +222,30 @@ function loadQuestion(index) {
                 actionBtn.classList.add('bg-red-500', 'hover:ring-red-100');
                 recIcon.className = "w-8 h-8 bg-white rounded-sm";
 
-                startRecordingPhase();
+                // Start Recording Countdown, then Recording Timer
+                startPhase(nextQuestion);
             });
             return;
         }
     }
-
-    startRecordingPhase();
+    else {
+        // Fallback for unknown parts?
+        startPhase(nextQuestion);
+    }
 }
 
-function startRecordingPhase() {
+// Renamed and upgraded from startRecordingPhase
+function startPhase(onTimerComplete) {
     overlay.classList.remove('hidden');
     let count = 3;
     countdownEl.innerText = count;
+
+    // UI Updates
     overlayText.innerText = isPrepTime ? "Preparation Starts In..." : "Recording Starts In...";
+
+    if (timerLabel) {
+        timerLabel.innerHTML = isPrepTime ? "Preparation<br>Time" : "Recording<br>Time";
+    }
 
     const countInt = setInterval(() => {
         count--;
@@ -244,7 +254,9 @@ function startRecordingPhase() {
         } else {
             clearInterval(countInt);
             overlay.classList.add('hidden');
-            startTimer(nextQuestion);
+
+            startTimer(onTimerComplete);
+
             if (!isPrepTime) {
                 startRecording();
             }
@@ -273,6 +285,9 @@ function stopEarly() {
 }
 
 function startTimer(onComplete) {
+    // Clear any existing timer to prevent overlaps
+    if (timerInterval) clearInterval(timerInterval);
+
     let current = timeLeft;
     const initial = timeLeft;
     updateTimerUI(current, initial);
@@ -296,8 +311,9 @@ function startTimer(onComplete) {
             if (isRecording) {
                 mediaRecorder.stop();
                 isRecording = false;
+                // onstop handler calls nextQuestion, so we don't call onComplete here
             } else {
-                onComplete();
+                if (onComplete) onComplete();
             }
         }
     }, 1000);

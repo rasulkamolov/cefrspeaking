@@ -1,0 +1,76 @@
+[Fri Jan 16 09:44:22 2026] PHP 8.3.6 Development Server (http://localhost:8080) started
+[Fri Jan 16 09:44:31 2026] [::1]:57720 Accepted
+[Fri Jan 16 09:44:31 2026] [::1]:57720 [404]: GET /src/pages/auth/login.php - No such file or directory
+[Fri Jan 16 09:44:31 2026] [::1]:57720 Closing
+[Fri Jan 16 09:45:11 2026] [::1]:33878 Accepted
+[Fri Jan 16 09:45:11 2026] [::1]:33878 [404]: HEAD /src/pages/auth/login.php - No such file or directory
+[Fri Jan 16 09:45:11 2026] [::1]:33878 Closing
+[Fri Jan 16 09:45:51 2026] [::1]:56482 Accepted
+[Fri Jan 16 09:45:51 2026] [::1]:56482 [200]: GET /src/pages/login.php
+[Fri Jan 16 09:45:51 2026] [::1]:56482 Closing
+[Fri Jan 16 09:45:52 2026] [::1]:56490 Accepted
+[Fri Jan 16 09:45:52 2026] [::1]:56490 [200]: POST /src/pages/login.php
+[Fri Jan 16 09:45:52 2026] [::1]:56490 Closing
+[Fri Jan 16 09:45:52 2026] [::1]:56496 Accepted
+[Fri Jan 16 09:45:52 2026] [::1]:56496 [302]: GET /src/pages/student/dashboard.php
+[Fri Jan 16 09:45:52 2026] [::1]:56496 Closing
+[Fri Jan 16 09:45:52 2026] [::1]:56508 Accepted
+[Fri Jan 16 09:45:52 2026] [::1]:56508 [200]: GET /src/pages/login.php
+[Fri Jan 16 09:45:52 2026] [::1]:56508 Closing
+[Fri Jan 16 09:46:19 2026] [::1]:34346 Accepted
+[Fri Jan 16 09:46:19 2026] [::1]:34346 [200]: GET /src/pages/login.php
+[Fri Jan 16 09:46:19 2026] [::1]:34346 Closing
+[Fri Jan 16 09:46:20 2026] [::1]:34348 Accepted
+[Fri Jan 16 09:46:20 2026] [::1]:34348 [200]: POST /src/pages/login.php
+[Fri Jan 16 09:46:20 2026] [::1]:34348 Closing
+[Fri Jan 16 09:46:20 2026] [::1]:34356 Accepted
+[Fri Jan 16 09:46:20 2026] [::1]:34356 [302]: GET /src/pages/student/dashboard.php
+[Fri Jan 16 09:46:20 2026] [::1]:34356 Closing
+[Fri Jan 16 09:46:20 2026] [::1]:34358 Accepted
+[Fri Jan 16 09:46:20 2026] [::1]:34358 [200]: GET /src/pages/login.php
+[Fri Jan 16 09:46:20 2026] [::1]:34358 Closing
+[Fri Jan 16 09:46:50 2026] [::1]:57158 Accepted
+[Fri Jan 16 09:46:50 2026] [::1]:57158 [200]: GET /src/pages/login.php
+[Fri Jan 16 09:46:50 2026] [::1]:57158 Closing
+[Fri Jan 16 09:46:50 2026] [::1]:57170 Accepted
+[Fri Jan 16 09:46:50 2026] [::1]:57170 [200]: POST /src/pages/login.php
+[Fri Jan 16 09:46:50 2026] [::1]:57170 Closing
+[Fri Jan 16 09:47:39 2026] [::1]:52878 Accepted
+[Fri Jan 16 09:47:39 2026] [::1]:52878 [200]: GET /src/pages/login.php
+[Fri Jan 16 09:47:39 2026] [::1]:52878 Closing
+[Fri Jan 16 09:47:40 2026] [::1]:33562 Accepted
+[Fri Jan 16 09:47:40 2026] [::1]:33562 [200]: POST /src/pages/login.php
+[Fri Jan 16 09:47:40 2026] [::1]:33562 Closing
+[Fri Jan 16 09:48:32 2026] [::1]:50326 Accepted
+[Fri Jan 16 09:48:32 2026] [::1]:50326 [200]: GET /src/pages/login.php
+[Fri Jan 16 09:48:32 2026] [::1]:50326 Closing
+[Fri Jan 16 09:48:33 2026] [::1]:50336 Accepted
+[Fri Jan 16 09:48:33 2026] [::1]:50336 [302]: POST /src/pages/login.php
+[Fri Jan 16 09:48:33 2026] [::1]:50336 Closing
+[Fri Jan 16 09:48:33 2026] [::1]:50348 Accepted
+[Fri Jan 16 09:48:33 2026] [::1]:50348 [200]: GET /src/pages/student/dashboard.php
+[Fri Jan 16 09:48:33 2026] [::1]:50348 Closing
+[Fri Jan 16 09:49:16 2026] [::1]:43382 Accepted
+[Fri Jan 16 09:49:16 2026] [::1]:43382 [200]: GET /src/pages/login.php
+[Fri Jan 16 09:49:16 2026] [::1]:43382 Closing
+[Fri Jan 16 09:49:16 2026] [::1]:43394 Accepted
+[Fri Jan 16 09:49:16 2026] [::1]:43394 [302]: POST /src/pages/login.php
+[Fri Jan 16 09:49:16 2026] [::1]:43394 Closing
+[Fri Jan 16 09:49:16 2026] [::1]:43400 Accepted
+[Fri Jan 16 09:49:16 2026] [::1]:43400 [200]: GET /src/pages/student/dashboard.php
+[Fri Jan 16 09:49:16 2026] [::1]:43400 Closing
+[Fri Jan 16 09:49:17 2026] [::1]:43404 Accepted
+[Fri Jan 16 09:49:17 2026] [::1]:43404 [200]: GET /src/pages/exam/intro.php?test_id=1&mode=full
+[Fri Jan 16 09:49:17 2026] [::1]:43404 Closing
+[Fri Jan 16 09:49:17 2026] [::1]:43420 Accepted
+[Fri Jan 16 09:49:17 2026] [::1]:43420 [200]: GET /src/pages/exam/runner.php?submission_id=14&mode=full&part=1.1
+[Fri Jan 16 09:49:17 2026] [::1]:43420 Closing
+[Fri Jan 16 09:49:17 2026] [::1]:43426 Accepted
+[Fri Jan 16 09:49:17 2026] [::1]:43426 [200]: GET /src/pages/exam/exam_logic.js
+[Fri Jan 16 09:49:17 2026] [::1]:43426 Closing
+[Fri Jan 16 09:49:18 2026] [::1]:43428 Accepted
+[Fri Jan 16 09:49:18 2026] [::1]:43428 [200]: GET /src/pages/exam/runner.php?submission_id=14&mode=full&part=3
+[Fri Jan 16 09:49:18 2026] [::1]:43428 Closing
+[Fri Jan 16 09:49:18 2026] [::1]:43440 Accepted
+[Fri Jan 16 09:49:18 2026] [::1]:43440 [200]: GET /src/pages/exam/exam_logic.js
+[Fri Jan 16 09:49:18 2026] [::1]:43440 Closing

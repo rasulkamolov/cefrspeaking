@@ -124,11 +124,11 @@ function loadQuestion(index) {
 
         let imagesHtml = '';
         if (image && image2) {
-            // Two images side-by-side
+            // Two images vertically stacked
             imagesHtml = `
-                <div class="grid grid-cols-2 gap-4 mb-4">
-                    <img src="../../../${image}" class="h-48 md:h-64 w-full object-contain rounded-lg shadow-md bg-gray-50 p-2">
-                    <img src="../../../${image2}" class="h-48 md:h-64 w-full object-contain rounded-lg shadow-md bg-gray-50 p-2">
+                <div class="flex flex-col space-y-4 mb-4">
+                    <img src="../../../${image}" class="w-full max-h-[40vh] object-contain rounded-lg shadow-md bg-gray-50 p-2">
+                    <img src="../../../${image2}" class="w-full max-h-[40vh] object-contain rounded-lg shadow-md bg-gray-50 p-2">
                 </div>
             `;
         } else if (image) {

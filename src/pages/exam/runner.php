@@ -40,21 +40,6 @@ if ($mode === 'full') {
 } else {
     $nextPart = 'finish';
 }
-
-// Determine Wizard State
-$wizardSteps = [
-    ['label' => 'Personal', 'active' => ($currentPart === '1.1')],
-    ['label' => 'Description', 'active' => ($currentPart === '1.2')],
-    ['label' => 'Monologue', 'active' => ($currentPart === '2')],
-    ['label' => 'Analysis', 'active' => ($currentPart === '3')],
-];
-// Simplified 3-step visual for C1 as per prompt (maybe?)
-// Let's stick to a clean progress bar or the requested "Wizard" if specifically for Part 3.
-// Prompt said "Part 3 Wizard: A prominent 3-step progress bar...".
-// I will render a generic progress at top, and if Part 3, maybe emphasize the steps within Part 3 (Prep -> Speak)?
-// Actually, the prompt "Part 3 Wizard... Checkmark -> Checkmark -> Active Number" implies Part 1/2 are done.
-// I'll make a Global Exam Progress bar.
-
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -119,15 +104,6 @@ $wizardSteps = [
         <!-- Question Container -->
         <div id="question-area" class="w-full max-w-5xl text-center space-y-6">
             <!-- Dynamic Content Injected Here -->
-        </div>
-
-        <!-- Part 2 Note Pad (Hidden by default) -->
-        <div id="notepad-area" class="hidden w-full max-w-3xl bg-white p-6 rounded-xl shadow-lg border border-gray-200 absolute top-4 bottom-28 left-1/2 transform -translate-x-1/2 z-20">
-            <h3 class="text-textMuted font-bold mb-2 flex justify-between">
-                <span>Preparation Notes</span>
-                <span class="text-xs font-normal bg-yellow-100 text-yellow-800 px-2 py-1 rounded">Draft Only</span>
-            </h3>
-            <textarea class="w-full h-[calc(100%-2rem)] bg-gray-50 text-textMain p-4 rounded-lg resize-none focus:outline-none focus:ring-2 focus:ring-primary border border-gray-200" placeholder="Type your notes here..."></textarea>
         </div>
 
         <!-- Part 3 Logic/Arguments Container (Hidden by default, used for C1) -->

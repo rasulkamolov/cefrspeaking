@@ -26,6 +26,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $sequence = $_POST['sequence'] ?? 1;
     $content = '';
     $mediaUrl = $question['media_url'] ?? null;
+    $mediaUrl2 = $question['media_url_2'] ?? null;
 
     // Handle Content based on Part
     if ($part === '3') {
@@ -41,11 +42,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $content = $_POST['content'] ?? '';
     }
 
-    // Handle File Upload
+    // Handle File Upload 1
     if (isset($_FILES['image']) && $_FILES['image']['error'] === UPLOAD_ERR_OK) {
         $ext = pathinfo($_FILES['image']['name'], PATHINFO_EXTENSION);
         $filename = 'img_' . time() . '_' . rand(1000, 9999) . '.' . $ext;
-        // Move to root/uploads/images
         $targetDir = __DIR__ . '/../../../uploads/images/';
         if (!is_dir($targetDir)) mkdir($targetDir, 0777, true);
 
@@ -54,14 +54,28 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         }
     }
 
+    // Handle File Upload 2 (Part 1.2)
+    if ($part === '1.2') {
+        if (isset($_FILES['image2']) && $_FILES['image2']['error'] === UPLOAD_ERR_OK) {
+            $ext = pathinfo($_FILES['image2']['name'], PATHINFO_EXTENSION);
+            $filename = 'img_' . time() . '_' . rand(1000, 9999) . '_2.' . $ext;
+            $targetDir = __DIR__ . '/../../../uploads/images/';
+            if (!is_dir($targetDir)) mkdir($targetDir, 0777, true);
+
+            if (move_uploaded_file($_FILES['image2']['tmp_name'], $targetDir . $filename)) {
+                $mediaUrl2 = 'uploads/images/' . $filename;
+            }
+        }
+    }
+
     if ($questionId) {
         // Update
-        $stmt = $pdo->prepare("UPDATE test_questions SET content = ?, media_url = ?, sequence = ? WHERE id = ?");
-        $stmt->execute([$content, $mediaUrl, $sequence, $questionId]);
+        $stmt = $pdo->prepare("UPDATE test_questions SET content = ?, media_url = ?, media_url_2 = ?, sequence = ? WHERE id = ?");
+        $stmt->execute([$content, $mediaUrl, $mediaUrl2, $sequence, $questionId]);
     } else {
         // Insert
-        $stmt = $pdo->prepare("INSERT INTO test_questions (test_id, part_type, content, media_url, sequence) VALUES (?, ?, ?, ?, ?)");
-        $stmt->execute([$testId, $part, $content, $mediaUrl, $sequence]);
+        $stmt = $pdo->prepare("INSERT INTO test_questions (test_id, part_type, content, media_url, media_url_2, sequence) VALUES (?, ?, ?, ?, ?, ?)");
+        $stmt->execute([$testId, $part, $content, $mediaUrl, $mediaUrl2, $sequence]);
     }
 
     header("Location: edit_test.php?test_id=" . $testId . "&msg=saved");
@@ -72,6 +86,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 $contentVal = $question ? $question['content'] : '';
 $seqVal = $question ? $question['sequence'] : 1;
 $mediaVal = $question ? $question['media_url'] : '';
+$mediaVal2 = $question ? $question['media_url_2'] : '';
 
 // For Part 3 Decoding
 $p3Topic = '';
@@ -146,7 +161,7 @@ if ($part === '3' && $contentVal) {
             <!-- Media Upload (Part 1.2, 2, or generic) -->
             <?php if ($part === '1.2' || $part === '2'): ?>
                 <div class="border-t border-gray-100 pt-6">
-                    <label class="block text-textMuted font-medium mb-2">Image (Optional)</label>
+                    <label class="block text-textMuted font-medium mb-2">Image 1 <?php echo ($part==='1.2') ? '(Left)' : ''; ?></label>
                     <?php if ($mediaVal): ?>
                         <div class="mb-2">
                             <p class="text-xs text-gray-500 mb-1">Current Image:</p>
@@ -154,6 +169,26 @@ if ($part === '3' && $contentVal) {
                         </div>
                     <?php endif; ?>
                     <input type="file" name="image" accept="image/*" class="block w-full text-sm text-gray-500
+                        file:mr-4 file:py-2 file:px-4
+                        file:rounded-full file:border-0
+                        file:text-sm file:font-semibold
+                        file:bg-blue-50 file:text-primary
+                        hover:file:bg-blue-100
+                    "/>
+                </div>
+            <?php endif; ?>
+
+            <!-- Media Upload 2 (Part 1.2 Only) -->
+            <?php if ($part === '1.2'): ?>
+                <div class="border-t border-gray-100 pt-6">
+                    <label class="block text-textMuted font-medium mb-2">Image 2 (Right)</label>
+                    <?php if ($mediaVal2): ?>
+                        <div class="mb-2">
+                            <p class="text-xs text-gray-500 mb-1">Current Image 2:</p>
+                            <img src="../../../<?php echo htmlspecialchars($mediaVal2); ?>" class="h-32 rounded border border-gray-200">
+                        </div>
+                    <?php endif; ?>
+                    <input type="file" name="image2" accept="image/*" class="block w-full text-sm text-gray-500
                         file:mr-4 file:py-2 file:px-4
                         file:rounded-full file:border-0
                         file:text-sm file:font-semibold

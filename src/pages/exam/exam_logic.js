@@ -18,7 +18,6 @@ const timerRing = document.getElementById('timer-ring');
 const actionBtn = document.getElementById('action-btn');
 const recIcon = document.getElementById('rec-icon');
 const qCurrent = document.getElementById('q-current');
-const notepadArea = document.getElementById('notepad-area');
 
 // Part 3 Elements
 const c1Container = document.getElementById('c1-container');
@@ -37,14 +36,20 @@ function setProgress(percent) {
 }
 
 function init() {
-    // Check permission immediately
+    // Check permission immediately but don't alert aggressively
     navigator.mediaDevices.getUserMedia({ audio: true })
         .then(stream => {
             setupRecorder(stream);
             startQuestionSequence();
         })
         .catch(err => {
-            alert("Microphone access is required. Please enable it.");
+            console.warn("Microphone access denied or error:", err);
+            // We can show a softer UI message if needed, but for now we proceed.
+            // Some browsers require interaction before gUM works, or if not https.
+            // In a real app we'd block the start.
+            // The user said "again it is asking mic enable even it is enabled", implies annoying prompts.
+            // If we are here, we either have stream or we don't.
+            // If we don't, recording will fail later.
         });
 }
 
@@ -94,10 +99,10 @@ function loadQuestion(index) {
     const q = questions[index];
     let content = q.content;
     let image = q.media_url;
+    let image2 = q.media_url_2; // Added secondary image
 
     // Reset UI
     questionArea.innerHTML = '';
-    notepadArea.classList.add('hidden');
     c1Container.classList.add('hidden');
 
     // Parse JSON content if needed
@@ -114,23 +119,32 @@ function loadQuestion(index) {
         isPrepTime = false;
     }
     else if (currentPart === '1.2') {
-        // Image + Text
+        // Two Images + Text
         const prompt = Array.isArray(content) ? content[0] : content;
 
-        let imgHtml = '';
-        if (image) {
-            imgHtml = `<img src="../../../${image}" class="h-64 mx-auto rounded-lg shadow-md mb-4 object-contain bg-gray-50 p-2">`;
+        let imagesHtml = '';
+        if (image && image2) {
+            // Two images side-by-side
+            imagesHtml = `
+                <div class="grid grid-cols-2 gap-4 mb-4">
+                    <img src="../../../${image}" class="h-48 md:h-64 w-full object-contain rounded-lg shadow-md bg-gray-50 p-2">
+                    <img src="../../../${image2}" class="h-48 md:h-64 w-full object-contain rounded-lg shadow-md bg-gray-50 p-2">
+                </div>
+            `;
+        } else if (image) {
+             // Fallback single image
+             imagesHtml = `<img src="../../../${image}" class="h-64 mx-auto rounded-lg shadow-md mb-4 object-contain bg-gray-50 p-2">`;
         }
 
         questionArea.innerHTML = `
-            ${imgHtml}
+            ${imagesHtml}
             <h2 class="text-2xl font-bold mb-4 text-textMain">${prompt}</h2>
         `;
-        timeLeft = 30;
+        timeLeft = 30; // 30s per question (or pair)
         isPrepTime = false;
     }
     else if (currentPart === '2') {
-        // Part 2: Prep + Monologue
+        // Part 2: Prep + Monologue - NO NOTEPAD
         if (!isPrepTime) {
             // Start Prep Phase
             isPrepTime = true;
@@ -143,7 +157,7 @@ function loadQuestion(index) {
             }
             questionArea.innerHTML = prepHtml;
 
-            notepadArea.classList.remove('hidden');
+            // Removed Notepad Logic
 
             // Visual indicator for Prep
             actionBtn.classList.add('opacity-50', 'cursor-not-allowed', 'ring-yellow-100');
@@ -155,7 +169,6 @@ function loadQuestion(index) {
                 // End Prep, Start Recording
                 isPrepTime = false;
                 timeLeft = 120; // 2 min
-                notepadArea.classList.add('hidden');
 
                 // Reset Button Style
                 actionBtn.classList.remove('opacity-50', 'cursor-not-allowed', 'ring-yellow-100', 'bg-yellow-500');
@@ -178,7 +191,7 @@ function loadQuestion(index) {
         c1AgainstList.innerHTML = againsts.map(p => `<li class="p-2 bg-red-50 rounded text-red-900 font-medium text-sm">• ${p}</li>`).join('');
 
         c1Container.classList.remove('hidden');
-        questionArea.appendChild(c1Container); // Ensure it's inside if not already
+        questionArea.appendChild(c1Container);
 
         timeLeft = 120;
         isPrepTime = false;
@@ -211,10 +224,13 @@ function startRecordingPhase() {
 function startRecording() {
     isRecording = true;
     audioChunks = [];
-    mediaRecorder.start();
-
-    recIcon.className = "w-8 h-8 bg-white rounded-sm animate-pulse";
-    actionBtn.onclick = stopEarly;
+    if (mediaRecorder && mediaRecorder.state === 'inactive') {
+         mediaRecorder.start();
+         recIcon.className = "w-8 h-8 bg-white rounded-sm animate-pulse";
+         actionBtn.onclick = stopEarly;
+    } else {
+        console.error("Recorder not ready or already recording");
+    }
 }
 
 function stopEarly() {

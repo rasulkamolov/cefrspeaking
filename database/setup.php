@@ -22,12 +22,14 @@ $pdo->exec("CREATE TABLE IF NOT EXISTS tests (
 )");
 
 // Create Test Parts/Questions Table
+// Updated with media_url_2
 $pdo->exec("CREATE TABLE IF NOT EXISTS test_questions (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     test_id INTEGER NOT NULL,
     part_type TEXT NOT NULL, -- '1.1', '1.2', '2', '3'
-    content TEXT, -- JSON or text content for the question/prompt
-    media_url TEXT, -- Path to image if applicable
+    content TEXT,
+    media_url TEXT,
+    media_url_2 TEXT,
     sequence INTEGER NOT NULL,
     FOREIGN KEY(test_id) REFERENCES tests(id)
 )");
@@ -37,7 +39,7 @@ $pdo->exec("CREATE TABLE IF NOT EXISTS submissions (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     user_id INTEGER NOT NULL,
     test_id INTEGER NOT NULL,
-    status TEXT DEFAULT 'in_progress', -- 'in_progress', 'completed', 'graded'
+    status TEXT DEFAULT 'in_progress',
     started_at DATETIME DEFAULT CURRENT_TIMESTAMP,
     completed_at DATETIME,
     FOREIGN KEY(user_id) REFERENCES users(id),
@@ -105,15 +107,15 @@ if ($stmt->fetchColumn() == 0) {
     }
 
     // Part 1.2 (B1) - 3 Questions based on 2 photos
-    // UPDATED: Seeding 3 separate questions for Part 1.2
+    // Seed with two demo images
     $questions1_2 = [
         "Compare these two pictures.",
         "Which mode of transport do you prefer?",
         "Why is it important to travel?"
     ];
     foreach ($questions1_2 as $idx => $q) {
-        $stmt = $pdo->prepare("INSERT INTO test_questions (test_id, part_type, content, media_url, sequence) VALUES (?, '1.2', ?, ?, ?)");
-        $stmt->execute([$testId, $q, 'assets/images/transport.jpg', $idx + 1]);
+        $stmt = $pdo->prepare("INSERT INTO test_questions (test_id, part_type, content, media_url, media_url_2, sequence) VALUES (?, '1.2', ?, ?, ?, ?)");
+        $stmt->execute([$testId, $q, 'assets/images/transport.jpg', 'assets/images/transport.jpg', $idx + 1]);
     }
 
 

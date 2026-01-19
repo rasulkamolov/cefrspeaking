@@ -107,11 +107,11 @@ if ($mode === 'full') {
         </div>
 
         <!-- Part 3 Logic/Arguments Container (Hidden by default, used for C1) -->
-        <div id="c1-container" class="hidden w-full max-w-5xl">
-            <h2 id="c1-topic" class="text-3xl font-bold mb-8 text-center text-textMain">Topic</h2>
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <div id="c1-container" class="hidden w-full max-w-5xl pb-4">
+            <h2 id="c1-topic" class="text-2xl md:text-3xl font-bold mb-4 md:mb-8 text-center text-textMain">Topic</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6">
                 <!-- FOR -->
-                <div class="bg-white p-6 rounded-xl shadow-md border-t-4 border-success">
+                <div class="bg-white p-4 md:p-6 rounded-xl shadow-md border-t-4 border-success">
                     <h3 class="text-success font-bold text-lg mb-4 flex items-center">
                         <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
                         Arguments FOR

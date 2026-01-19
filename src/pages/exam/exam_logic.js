@@ -109,7 +109,7 @@ function loadQuestion(index) {
     // Determine UI based on Part
     if (currentPart === '1.1') {
         // Simple Text
-        questionArea.innerHTML = `<h2 class="text-3xl font-bold mb-4 text-textMain">${typeof content === 'string' ? content : content[0]}</h2>`;
+        questionArea.innerHTML = `<h2 class="text-2xl md:text-3xl font-bold mb-4 text-textMain">${typeof content === 'string' ? content : content[0]}</h2>`;
         timeLeft = 30;
         isPrepTime = false;
         startPhase(nextQuestion);
@@ -120,21 +120,21 @@ function loadQuestion(index) {
 
         let imagesHtml = '';
         if (image && image2) {
-            // Two images vertically stacked
+            // Two images vertically stacked - Optimized for mobile (max-h reduced)
             imagesHtml = `
-                <div class="flex flex-col space-y-4 mb-4">
-                    <img src="../../../${image}" class="w-full max-h-[40vh] object-contain rounded-lg shadow-md bg-gray-50 p-2">
-                    <img src="../../../${image2}" class="w-full max-h-[40vh] object-contain rounded-lg shadow-md bg-gray-50 p-2">
+                <div class="flex flex-col space-y-2 mb-4">
+                    <img src="../../../${image}" class="w-full max-h-[25vh] md:max-h-[35vh] object-contain rounded-lg shadow-md bg-gray-50 p-1">
+                    <img src="../../../${image2}" class="w-full max-h-[25vh] md:max-h-[35vh] object-contain rounded-lg shadow-md bg-gray-50 p-1">
                 </div>
             `;
         } else if (image) {
              // Fallback single image
-             imagesHtml = `<img src="../../../${image}" class="h-64 mx-auto rounded-lg shadow-md mb-4 object-contain bg-gray-50 p-2">`;
+             imagesHtml = `<img src="../../../${image}" class="w-full max-h-[40vh] mx-auto rounded-lg shadow-md mb-4 object-contain bg-gray-50 p-2">`;
         }
 
         questionArea.innerHTML = `
             ${imagesHtml}
-            <h2 class="text-2xl font-bold mb-4 text-textMain">${prompt}</h2>
+            <h2 class="text-xl md:text-2xl font-bold mb-4 text-textMain">${prompt}</h2>
         `;
         timeLeft = 30; // 30s per question (or pair)
         isPrepTime = false;

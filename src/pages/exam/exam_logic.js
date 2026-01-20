@@ -118,18 +118,21 @@ function loadQuestion(index) {
         // Two Images + Text
         const prompt = Array.isArray(content) ? content[0] : content;
 
+        // Helper to handle external vs local images
+        const getImgSrc = (url) => url.startsWith('http') ? url : `../../../${url}`;
+
         let imagesHtml = '';
         if (image && image2) {
             // Two images vertically stacked - Optimized for mobile (max-h reduced)
             imagesHtml = `
                 <div class="flex flex-col space-y-2 mb-4">
-                    <img src="../../../${image}" class="w-full max-h-[25vh] md:max-h-[35vh] object-contain rounded-lg shadow-md bg-gray-50 p-1">
-                    <img src="../../../${image2}" class="w-full max-h-[25vh] md:max-h-[35vh] object-contain rounded-lg shadow-md bg-gray-50 p-1">
+                    <img src="${getImgSrc(image)}" class="w-full max-h-[25vh] md:max-h-[35vh] object-contain rounded-lg shadow-md bg-gray-50 p-1">
+                    <img src="${getImgSrc(image2)}" class="w-full max-h-[25vh] md:max-h-[35vh] object-contain rounded-lg shadow-md bg-gray-50 p-1">
                 </div>
             `;
         } else if (image) {
              // Fallback single image
-             imagesHtml = `<img src="../../../${image}" class="w-full max-h-[40vh] mx-auto rounded-lg shadow-md mb-4 object-contain bg-gray-50 p-2">`;
+             imagesHtml = `<img src="${getImgSrc(image)}" class="w-full max-h-[40vh] mx-auto rounded-lg shadow-md mb-4 object-contain bg-gray-50 p-2">`;
         }
 
         questionArea.innerHTML = `
@@ -160,7 +163,8 @@ function loadQuestion(index) {
             }
 
             if (image) {
-                prepHtml += `<img src="../../../${image}" class="h-48 mx-auto rounded-lg shadow-md mb-4 object-contain bg-gray-50 p-2">`;
+                const imgSrc = image.startsWith('http') ? image : `../../../${image}`;
+                prepHtml += `<img src="${imgSrc}" class="h-48 mx-auto rounded-lg shadow-md mb-4 object-contain bg-gray-50 p-2">`;
             }
             questionArea.innerHTML = prepHtml;
 

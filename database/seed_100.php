@@ -2,7 +2,14 @@
 // database/seed_100.php
 require_once __DIR__ . '/../src/includes/db.php';
 
-// Arrays of content
+echo "Generating 100 Mock Tests with Real Images...\n";
+
+// Curated list of high-quality, stable image URLs (Unsplash/Pexels via reliable sources or direct links if possible)
+// Using Picsum Photos as a reliable source for "Real" random photos that aren't just text.
+// We append a random seed to get different images.
+$base_image_url = "https://picsum.photos/seed/";
+
+// Topics Arrays (Kept from previous version)
 $topics_part1 = [
     "Hometown", "Family", "Work", "Studies", "Hobbies", "Travel", "Music", "Food",
     "Sports", "Books", "Movies", "Weather", "Technology", "Internet", "Social Media",
@@ -47,14 +54,9 @@ $topics_part3 = [
     ["topic" => "Genetic Engineering", "for" => ["Curing diseases", "Better crops"], "against" => ["Ethical concerns", "Unforeseen consequences"]]
 ];
 
-echo "Generating 100 Mock Tests...\n";
-
-// Clear existing tests (Optional - keep the seeded one?)
-// Let's keep the seeded one and add 100 more.
-
 for ($i = 1; $i <= 100; $i++) {
     $title = "Mock Exam #" . $i;
-    $desc = "A complete practice test (Generated).";
+    $desc = "A complete practice test with real images.";
 
     // Create Test
     $stmt = $pdo->prepare("INSERT INTO tests (title, description) VALUES (?, ?)");
@@ -74,11 +76,13 @@ for ($i = 1; $i <= 100; $i++) {
     // Part 1.2 (2 Images)
     $topic1_2 = $topics_part1_2[array_rand($topics_part1_2)];
     $prompt = "Compare these two pictures regarding " . $topic1_2;
-    // Use placehold.co with encoded text
-    $imgText1 = urlencode(explode(" vs ", $topic1_2)[0]);
-    $imgText2 = urlencode(explode(" vs ", $topic1_2)[1]);
-    $url1 = "https://placehold.co/600x400/e2e8f0/1e293b?text=" . $imgText1;
-    $url2 = "https://placehold.co/600x400/e2e8f0/1e293b?text=" . $imgText2;
+
+    // Generate unique reliable image URLs
+    // Picsum allows /seed/{seed}/width/height
+    $seed1 = uniqid() . "1";
+    $seed2 = uniqid() . "2";
+    $url1 = $base_image_url . $seed1 . "/600/400";
+    $url2 = $base_image_url . $seed2 . "/600/400";
 
     $stmt = $pdo->prepare("INSERT INTO test_questions (test_id, part_type, content, media_url, media_url_2, sequence) VALUES (?, '1.2', ?, ?, ?, ?)");
     $stmt->execute([$testId, $prompt, $url1, $url2, 1]);
@@ -89,8 +93,9 @@ for ($i = 1; $i <= 100; $i++) {
         "topic" => $topic2,
         "points" => ["What it was", "When it happened", "Who was involved", "Why it was important"]
     ]);
-    $imgText2Main = urlencode($topic2);
-    $urlPart2 = "https://placehold.co/600x400/fef3c7/92400e?text=" . $imgText2Main;
+
+    $seed3 = uniqid() . "3";
+    $urlPart2 = $base_image_url . $seed3 . "/600/400";
 
     $stmt = $pdo->prepare("INSERT INTO test_questions (test_id, part_type, content, media_url, sequence) VALUES (?, '2', ?, ?, ?)");
     $stmt->execute([$testId, $content2, $urlPart2, 1]);
@@ -107,5 +112,5 @@ for ($i = 1; $i <= 100; $i++) {
     $stmt->execute([$testId, $content3, 1]);
 }
 
-echo "Successfully generated 100 tests.\n";
+echo "Successfully generated 100 tests with real photo URLs.\n";
 ?>

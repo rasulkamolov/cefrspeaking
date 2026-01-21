@@ -131,3 +131,27 @@
 [Mon Jan 19 09:19:53 2026] [::1]:59192 Accepted
 [Mon Jan 19 09:19:53 2026] [::1]:59192 [200]: GET /src/pages/exam/exam_logic.js
 [Mon Jan 19 09:19:53 2026] [::1]:59192 Closing
+[Wed Jan 21 08:43:14 2026] [::1]:44932 Accepted
+[Wed Jan 21 08:43:14 2026] [::1]:44932 [200]: GET /src/pages/login.php
+[Wed Jan 21 08:43:14 2026] [::1]:44932 Closing
+[Wed Jan 21 08:43:15 2026] [::1]:44938 Accepted
+[Wed Jan 21 08:43:15 2026] [::1]:44938 [302]: POST /src/pages/login.php
+[Wed Jan 21 08:43:15 2026] [::1]:44938 Closing
+[Wed Jan 21 08:43:15 2026] [::1]:44952 Accepted
+[Wed Jan 21 08:43:15 2026] [::1]:44952 [200]: GET /src/pages/student/dashboard.php
+[Wed Jan 21 08:43:15 2026] [::1]:44952 Closing
+[Wed Jan 21 08:43:17 2026] [::1]:44962 Accepted
+[Wed Jan 21 08:43:17 2026] [::1]:44962 [200]: GET /src/pages/exam/intro.php?test_id=196&mode=full
+[Wed Jan 21 08:43:17 2026] [::1]:44962 Closing
+[Wed Jan 21 08:43:17 2026] [::1]:44970 Accepted
+[Wed Jan 21 08:43:17 2026] [::1]:44970 [200]: GET /src/pages/exam/runner.php?submission_id=17&mode=full&part=1.1
+[Wed Jan 21 08:43:17 2026] [::1]:44970 Closing
+[Wed Jan 21 08:43:17 2026] [::1]:44978 Accepted
+[Wed Jan 21 08:43:17 2026] [::1]:44978 [200]: GET /src/pages/exam/exam_logic.js
+[Wed Jan 21 08:43:17 2026] [::1]:44978 Closing
+[Wed Jan 21 08:43:18 2026] [::1]:44994 Accepted
+[Wed Jan 21 08:43:18 2026] [::1]:44994 [200]: GET /src/pages/exam/runner.php?submission_id=17&mode=full&part=1.2
+[Wed Jan 21 08:43:18 2026] [::1]:44994 Closing
+[Wed Jan 21 08:43:18 2026] [::1]:45004 Accepted
+[Wed Jan 21 08:43:18 2026] [::1]:45004 [200]: GET /src/pages/exam/exam_logic.js
+[Wed Jan 21 08:43:18 2026] [::1]:45004 Closing

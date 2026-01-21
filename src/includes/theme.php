@@ -1,28 +1,91 @@
+<?php
+// src/includes/theme.php
+?>
+<!-- Mobile Meta Tags -->
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0, viewport-fit=cover">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="theme-color" content="#1e1b4b">
+
+<!-- Tailwind CSS (CDN) -->
 <script src="https://cdn.tailwindcss.com"></script>
+
+<!-- Custom Config for App Feel -->
 <script>
     tailwind.config = {
         theme: {
             extend: {
                 colors: {
-                    primary: '#2563eb', // blue-600
-                    primaryHover: '#1d4ed8', // blue-700
-                    secondary: '#475569', // slate-600
-                    accent: '#06b6d4', // cyan-500
-                    success: '#22c55e', // green-500
-                    danger: '#ef4444', // red-500
-                    background: '#f8fafc', // slate-50
-                    surface: '#ffffff', // white
-                    textMain: '#0f172a', // slate-900
-                    textMuted: '#64748b', // slate-500
+                    // Midnight Navy Palette
+                    primary: '#1e1b4b', // Indigo 950
+                    primaryLight: '#312e81', // Indigo 900
+
+                    // Neon Violet Accents
+                    accent: '#8b5cf6', // Violet 500
+                    accentHover: '#7c3aed', // Violet 600
+
+                    // Functional Colors
+                    secondary: '#64748b', // Slate 500
+                    success: '#10b981', // Emerald 500
+                    danger: '#ef4444', // Red 500
+
+                    // Backgrounds
+                    background: '#f1f5f9', // Slate 100
+                    surface: '#ffffff',
+
+                    // Typography
+                    textMain: '#0f172a', // Slate 900
+                    textMuted: '#64748b', // Slate 500
+                    textLight: '#f8fafc', // Slate 50
                 },
                 fontFamily: {
-                    sans: ['Inter', 'sans-serif'],
+                    sans: ['-apple-system', 'BlinkMacSystemFont', '"Segoe UI"', 'Roboto', 'Helvetica', 'Arial', 'sans-serif'],
+                },
+                safeArea: {
+                    'top': 'env(safe-area-inset-top)',
+                    'bottom': 'env(safe-area-inset-bottom)',
+                },
+                animation: {
+                    'fade-in-down': 'fadeInDown 0.5s ease-out',
+                    'pulse-slow': 'pulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+                },
+                keyframes: {
+                    fadeInDown: {
+                        '0%': { opacity: '0', transform: 'translateY(-10px)' },
+                        '100%': { opacity: '1', transform: 'translateY(0)' },
+                    }
                 }
             }
         }
     }
 </script>
+
 <style>
-    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
-    body { font-family: 'Inter', sans-serif; background-color: #f8fafc; color: #0f172a; }
+    /* Safe Area Utilities */
+    .pb-safe { padding-bottom: env(safe-area-inset-bottom); }
+    .pt-safe { padding-top: env(safe-area-inset-top); }
+
+    /* Hide Scrollbar but keep functionality */
+    .no-scrollbar::-webkit-scrollbar {
+        display: none;
+    }
+    .no-scrollbar {
+        -ms-overflow-style: none;
+        scrollbar-width: none;
+    }
+
+    /* Tap Highlight Removal */
+    * {
+        -webkit-tap-highlight-color: transparent;
+    }
+
+    /* Button Press Effect */
+    .active-scale:active {
+        transform: scale(0.97);
+        transition: transform 0.1s;
+    }
+
+    body {
+        background-color: #f1f5f9; /* Match tailwind config background */
+    }
 </style>

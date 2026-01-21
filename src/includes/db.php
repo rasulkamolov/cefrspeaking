@@ -32,11 +32,11 @@ try {
 
     if ($isApi) {
         header('Content-Type: application/json');
-        http_response_code(500);
-        echo json_encode(['error' => 'Database connection failed.']);
+        http_response_code(503); // Service Unavailable
+        echo json_encode(['error' => 'Database connection failed.', 'detail' => $e->getMessage()]);
     } else {
         // User facing error
-        http_response_code(500);
+        http_response_code(503); // Service Unavailable - Better than 500 for generic error pages
         echo "<div style='font-family: system-ui, -apple-system, sans-serif; background: #f8fafc; color: #1e293b; display: flex; align-items: center; justify-content: center; height: 100vh; margin: 0;'>";
         echo "<div style='background: white; padding: 40px; border-radius: 16px; box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1); max-width: 500px; text-align: center; border: 1px solid #e2e8f0;'>";
 
@@ -44,6 +44,11 @@ try {
 
         echo "<h1 style='font-size: 24px; font-weight: bold; margin-bottom: 10px;'>Connection Failed</h1>";
         echo "<p style='color: #64748b; margin-bottom: 20px; line-height: 1.5;'>The application could not connect to the database.</p>";
+
+        // Always show the error message in the box for immediate diagnostics
+        echo "<div style='background: #f1f5f9; padding: 10px; font-family: monospace; font-size: 12px; color: #475569; margin-bottom: 20px; text-align: left; border-radius: 6px; overflow-x: auto;'>";
+        echo "<strong>Error:</strong> " . htmlspecialchars($e->getMessage());
+        echo "</div>";
 
         if (!$configExists) {
             echo "<div style='background: #fff7ed; border-left: 4px solid #f97316; padding: 15px; text-align: left; font-size: 14px; margin-bottom: 20px;'>";
@@ -53,14 +58,11 @@ try {
             echo "</div>";
         } else {
              echo "<div style='background: #f0fdf4; border-left: 4px solid #22c55e; padding: 15px; text-align: left; font-size: 14px; margin-bottom: 20px;'>";
-             echo "Configuration file found, but settings appear incorrect.";
+             echo "Config file <code>src/includes/config.php</code> found, but connection failed.";
              echo "</div>";
         }
 
         echo "<a href='/test_db.php' style='display: inline-block; background: #3b82f6; color: white; text-decoration: none; padding: 12px 24px; border-radius: 8px; font-weight: 500; transition: background 0.2s;'>Run Diagnostic Tool</a>";
-
-        // Debug info (hidden by default unless inspected)
-        echo "<!-- " . htmlspecialchars($e->getMessage()) . " -->";
 
         echo "</div></div>";
     }

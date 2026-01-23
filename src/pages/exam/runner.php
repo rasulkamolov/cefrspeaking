@@ -45,7 +45,7 @@ if ($mode === 'full') {
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Oxford CEFR - Exam Room</title>
+    <title>Exam - Part <?php echo $currentPart; ?></title>
     <?php require_once __DIR__ . '/../../includes/theme.php'; ?>
     <style>
         .progress-ring__circle {
@@ -64,29 +64,26 @@ if ($mode === 'full') {
         }
     </style>
 </head>
-<body class="bg-background text-textMain font-sans h-screen flex flex-col overflow-hidden">
+<body class="bg-background text-textMain font-sans">
 
-    <!-- Top Bar / Wizard -->
-    <header class="bg-primary text-white pt-safe shadow-lg z-20">
-        <div class="px-4 py-3 flex justify-between items-center">
+    <!-- Fixed Header -->
+    <header class="bg-primary text-white pt-safe shadow-lg z-20 flex-none absolute top-0 w-full h-[60px] plus-safe-top">
+        <div class="px-4 h-full flex justify-between items-center">
             <h1 class="text-lg font-bold tracking-tight text-white flex items-center">
                 <span class="bg-white/20 px-2 py-0.5 rounded text-sm mr-2">Part <?php echo $currentPart; ?></span>
             </h1>
 
-            <!-- Progress Steps (Simplified Visual) -->
+            <!-- Progress Steps -->
             <div class="flex items-center space-x-1">
                 <?php
                 $partsOrder = ['1.1', '1.2', '2', '3'];
                 $currentIndex = array_search($currentPart, $partsOrder);
                 foreach ($partsOrder as $idx => $p) {
                     if ($idx < $currentIndex) {
-                        // Completed
                         echo '<div class="w-2 h-2 rounded-full bg-success"></div>';
                     } elseif ($idx === $currentIndex) {
-                        // Active
                         echo '<div class="w-6 h-2 rounded-full bg-accent"></div>';
                     } else {
-                        // Pending
                         echo '<div class="w-2 h-2 rounded-full bg-white/20"></div>';
                     }
                 }
@@ -99,11 +96,12 @@ if ($mode === 'full') {
         </div>
     </header>
 
-    <!-- Main Content Area -->
-    <div class="flex-grow relative flex flex-col items-center justify-center p-4 overflow-y-auto w-full" id="exam-container">
+    <!-- Scrollable Main Content -->
+    <!-- pt-[60px] + safe-area-top -->
+    <div class="absolute top-0 bottom-[100px] w-full pt-safe mt-[60px] overflow-y-auto px-4 pb-4" id="exam-container">
 
-        <!-- Loading / Transition Overlay -->
-        <div id="overlay" class="absolute inset-0 bg-white/95 z-50 flex items-center justify-center hidden backdrop-blur-sm">
+        <!-- Loading Overlay -->
+        <div id="overlay" class="absolute inset-0 bg-white/95 z-50 flex items-center justify-center hidden backdrop-blur-sm h-full w-full fixed">
             <div class="text-center animate-fade-in-down">
                 <h2 class="text-2xl font-bold mb-6 text-primary" id="overlay-text">Get Ready</h2>
                 <div class="relative w-24 h-24 mx-auto flex items-center justify-center">
@@ -115,23 +113,21 @@ if ($mode === 'full') {
         </div>
 
         <!-- Question Container -->
-        <div id="question-area" class="w-full max-w-2xl text-center space-y-4">
+        <div id="question-area" class="w-full max-w-2xl mx-auto text-center space-y-4 pt-4">
             <!-- Dynamic Content Injected Here -->
         </div>
 
-        <!-- Part 3 Logic/Arguments Container (Hidden by default, used for C1) -->
-        <div id="c1-container" class="hidden w-full max-w-4xl pb-4">
+        <!-- Part 3 Logic/Arguments Container -->
+        <div id="c1-container" class="hidden w-full max-w-4xl mx-auto pb-4">
             <h2 id="c1-topic" class="text-xl md:text-2xl font-bold mb-4 text-center text-primary">Topic</h2>
-            <div class="grid grid-cols-1 gap-4 overflow-y-auto max-h-[50vh] pr-1">
+            <div class="grid grid-cols-1 gap-4">
                 <!-- FOR -->
                 <div class="bg-white p-4 rounded-xl shadow-sm border-l-4 border-success">
                     <h3 class="text-success font-bold text-sm uppercase tracking-wide mb-3 flex items-center">
                         <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
                         Arguments FOR
                     </h3>
-                    <ul class="space-y-2 text-sm" id="c1-for-list">
-                        <!-- Items injected here -->
-                    </ul>
+                    <ul class="space-y-2 text-sm text-left" id="c1-for-list"></ul>
                 </div>
                 <!-- AGAINST -->
                 <div class="bg-white p-4 rounded-xl shadow-sm border-l-4 border-danger">
@@ -139,17 +135,14 @@ if ($mode === 'full') {
                         <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
                         Arguments AGAINST
                     </h3>
-                    <ul class="space-y-2 text-sm" id="c1-against-list">
-                        <!-- Items injected here -->
-                    </ul>
+                    <ul class="space-y-2 text-sm text-left" id="c1-against-list"></ul>
                 </div>
             </div>
         </div>
-
     </div>
 
-    <!-- Bottom Control Bar -->
-    <div class="bg-surface p-4 pb-safe pt-4 border-t border-gray-100 flex justify-between items-center z-30 shadow-[0_-8px_30px_rgba(0,0,0,0.04)] relative">
+    <!-- Fixed Bottom Control Bar -->
+    <div class="absolute bottom-0 w-full bg-surface h-[100px] border-t border-gray-100 flex justify-between items-center z-30 shadow-[0_-8px_30px_rgba(0,0,0,0.04)] pb-safe px-4">
 
         <!-- Timer -->
         <div class="flex items-center justify-center w-20">
@@ -162,15 +155,14 @@ if ($mode === 'full') {
             </div>
         </div>
 
-        <!-- Record Button (Centered & Prominent) -->
-        <div class="absolute left-1/2 top-1/2 transform -translate-x-1/2 -translate-y-1/2">
+        <!-- Record Button (Centered) -->
+        <div class="absolute left-1/2 top-1/2 transform -translate-x-1/2 -translate-y-[60%]">
             <button id="action-btn" class="w-20 h-20 rounded-full bg-danger border-4 border-white shadow-xl flex items-center justify-center transform transition active:scale-95 focus:outline-none z-40">
-                <!-- Inner Icon -->
                 <div id="rec-icon" class="w-8 h-8 bg-white rounded shadow-inner transition-all duration-200"></div>
             </button>
         </div>
 
-        <!-- Skip / Next -->
+        <!-- Next Button -->
         <div class="w-20 text-right">
             <button id="next-btn" class="text-textMuted hover:text-primary text-xs font-bold uppercase tracking-wider hidden transition py-2 px-1">Next &rarr;</button>
         </div>

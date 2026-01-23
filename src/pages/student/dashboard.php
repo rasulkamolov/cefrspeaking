@@ -16,8 +16,8 @@ $tests = $stmt->fetchAll();
 <body>
 
     <!-- Fixed Header -->
-    <header class="bg-primary text-white pt-safe sticky top-0 z-50 shadow-md w-full flex-none">
-        <div class="px-6 py-4 flex justify-between items-center h-16">
+    <header class="bg-primary text-white pt-safe sticky top-0 z-50 shadow-md w-full flex-none h-[calc(60px+env(safe-area-inset-top))]">
+        <div class="px-6 h-[60px] flex justify-between items-center">
             <div>
                 <h1 class="text-xl font-bold tracking-tight">Oxford CEFR</h1>
                 <p class="text-indigo-200 text-xs">Speaking Exam</p>
@@ -29,7 +29,8 @@ $tests = $stmt->fetchAll();
     </header>
 
     <!-- Scrollable Main Content -->
-    <main class="app-content bg-gray-50 pb-24">
+    <!-- Content starts below header, padding bottom accounts for nav -->
+    <main class="app-content bg-gray-50 pb-[100px]">
         <div class="container mx-auto px-4 mt-6 max-w-lg">
 
             <!-- Hero -->
@@ -81,14 +82,11 @@ $tests = $stmt->fetchAll();
                     </div>
                 <?php endforeach; ?>
             </div>
-
-            <!-- Bottom Spacer for Tab Bar -->
-            <div class="h-8"></div>
         </div>
     </main>
 
     <!-- Fixed Bottom Nav -->
-    <nav class="fixed bottom-0 w-full bg-surface/95 backdrop-blur-md border-t border-gray-200 flex justify-around items-center px-2 py-2 pb-safe z-50 shadow-[0_-4px_6px_-1px_rgba(0,0,0,0.05)] flex-none">
+    <nav class="fixed bottom-0 w-full bg-surface/95 backdrop-blur-md border-t border-gray-200 flex justify-around items-center px-2 py-2 pb-safe z-50 shadow-[0_-4px_6px_-1px_rgba(0,0,0,0.05)] flex-none h-[calc(60px+env(safe-area-inset-bottom))]">
         <a href="dashboard.php" class="flex flex-col items-center p-2 text-primary w-16">
             <svg class="w-6 h-6 mb-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"></path></svg>
             <span class="text-[10px] font-bold">Home</span>

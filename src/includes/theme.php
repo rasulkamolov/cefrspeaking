@@ -6,6 +6,7 @@
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="theme-color" content="#1e1b4b">
+<meta name="format-detection" content="telephone=no">
 
 <!-- Tailwind CSS (CDN) -->
 <script src="https://cdn.tailwindcss.com"></script>
@@ -30,7 +31,7 @@
                     danger: '#ef4444', // Red 500
 
                     // Backgrounds
-                    background: '#f1f5f9', // Slate 100
+                    background: '#f8fafc', // Slate 50
                     surface: '#ffffff',
 
                     // Typography
@@ -65,6 +66,39 @@
     .pb-safe { padding-bottom: env(safe-area-inset-bottom); }
     .pt-safe { padding-top: env(safe-area-inset-top); }
 
+    /* App Shell Logic */
+    html, body {
+        height: 100%;
+        width: 100%;
+        overflow: hidden; /* Prevent body scroll */
+        -webkit-user-select: none; /* Disable selection */
+        user-select: none;
+        -webkit-touch-callout: none;
+        touch-action: manipulation;
+    }
+
+    body {
+        background-color: #f8fafc;
+        display: flex;
+        flex-direction: column;
+    }
+
+    /* Scrollable Content Area */
+    .app-content {
+        flex: 1;
+        overflow-y: auto;
+        -webkit-overflow-scrolling: touch;
+        overscroll-behavior-y: none; /* Prevent pull-to-refresh */
+        position: relative;
+        width: 100%;
+    }
+
+    /* Text Inputs should be selectable */
+    input, textarea {
+        -webkit-user-select: text;
+        user-select: text;
+    }
+
     /* Hide Scrollbar but keep functionality */
     .no-scrollbar::-webkit-scrollbar {
         display: none;
@@ -83,9 +117,5 @@
     .active-scale:active {
         transform: scale(0.97);
         transition: transform 0.1s;
-    }
-
-    body {
-        background-color: #f1f5f9; /* Match tailwind config background */
     }
 </style>

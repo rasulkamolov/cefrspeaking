@@ -109,9 +109,10 @@ if ($part === '3' && $contentVal) {
     <title>Oxford CEFR Speaking - Edit Question</title>
     <?php require_once __DIR__ . '/../../includes/theme.php'; ?>
 </head>
-<body class="bg-background text-textMain font-sans pb-20">
+<body class="bg-background text-textMain font-sans h-screen-dvh flex flex-col overflow-hidden">
 
-    <nav class="bg-white shadow-sm border-b border-gray-200 p-4 sticky top-0 z-20">
+    <!-- Fixed Header -->
+    <nav class="bg-white shadow-sm border-b border-gray-200 p-4 flex-none z-20">
         <div class="container mx-auto flex justify-between items-center">
              <div class="flex items-center space-x-4">
                 <h1 class="text-2xl font-bold text-primary">Oxford CEFR Speaking</h1>
@@ -122,90 +123,95 @@ if ($part === '3' && $contentVal) {
         </div>
     </nav>
 
-    <div class="container mx-auto p-6 max-w-3xl">
+    <!-- Scrollable Content -->
+    <main class="flex-1 overflow-y-auto bg-gray-50 p-6">
+        <div class="container mx-auto max-w-3xl">
 
-        <form method="POST" enctype="multipart/form-data" class="bg-white p-8 rounded-lg shadow space-y-6">
+            <form method="POST" enctype="multipart/form-data" class="bg-white p-8 rounded-lg shadow space-y-6 border border-gray-200">
 
-            <!-- Sequence -->
-            <div>
-                <label class="block text-textMuted font-medium mb-2" for="sequence">Sequence Order</label>
-                <input class="w-24 p-2 rounded border border-gray-300 focus:ring-2 focus:ring-primary" type="number" name="sequence" value="<?php echo $seqVal; ?>" required>
-                <p class="text-xs text-textMuted mt-1">Order in which questions appear in this part.</p>
-            </div>
-
-            <?php if ($part === '3'): ?>
-                <!-- Part 3 Fields -->
+                <!-- Sequence -->
                 <div>
-                    <label class="block text-textMuted font-medium mb-2">Debate Topic</label>
-                    <input class="w-full p-2 rounded border border-gray-300 focus:ring-2 focus:ring-primary" type="text" name="topic" value="<?php echo htmlspecialchars($p3Topic); ?>" placeholder="e.g., Gun Control" required>
+                    <label class="block text-textMuted font-medium mb-2" for="sequence">Sequence Order</label>
+                    <input class="w-24 p-2 rounded border border-gray-300 focus:ring-2 focus:ring-primary focus:outline-none" type="number" name="sequence" value="<?php echo $seqVal; ?>" required>
+                    <p class="text-xs text-textMuted mt-1">Order in which questions appear in this part.</p>
                 </div>
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+
+                <?php if ($part === '3'): ?>
+                    <!-- Part 3 Fields -->
                     <div>
-                        <label class="block text-green-600 font-bold mb-2">FOR Points (One per line)</label>
-                        <textarea class="w-full p-2 rounded border border-gray-300 focus:ring-2 focus:ring-primary h-40" name="fors" placeholder="Argument 1&#10;Argument 2"><?php echo htmlspecialchars($p3Fors); ?></textarea>
+                        <label class="block text-textMuted font-medium mb-2">Debate Topic</label>
+                        <input class="w-full p-2 rounded border border-gray-300 focus:ring-2 focus:ring-primary focus:outline-none" type="text" name="topic" value="<?php echo htmlspecialchars($p3Topic); ?>" placeholder="e.g., Gun Control" required>
                     </div>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div>
+                            <label class="block text-green-600 font-bold mb-2">FOR Points (One per line)</label>
+                            <textarea class="w-full p-2 rounded border border-gray-300 focus:ring-2 focus:ring-primary h-40 focus:outline-none" name="fors" placeholder="Argument 1&#10;Argument 2"><?php echo htmlspecialchars($p3Fors); ?></textarea>
+                        </div>
+                        <div>
+                            <label class="block text-red-600 font-bold mb-2">AGAINST Points (One per line)</label>
+                            <textarea class="w-full p-2 rounded border border-gray-300 focus:ring-2 focus:ring-primary h-40 focus:outline-none" name="againsts" placeholder="Argument 1&#10;Argument 2"><?php echo htmlspecialchars($p3Againsts); ?></textarea>
+                        </div>
+                    </div>
+
+                <?php else: ?>
+                    <!-- Standard Fields -->
                     <div>
-                        <label class="block text-red-600 font-bold mb-2">AGAINST Points (One per line)</label>
-                        <textarea class="w-full p-2 rounded border border-gray-300 focus:ring-2 focus:ring-primary h-40" name="againsts" placeholder="Argument 1&#10;Argument 2"><?php echo htmlspecialchars($p3Againsts); ?></textarea>
+                        <label class="block text-textMuted font-medium mb-2">Question / Prompt Text</label>
+                        <textarea class="w-full p-2 rounded border border-gray-300 focus:ring-2 focus:ring-primary focus:outline-none" name="content" rows="3" required><?php echo htmlspecialchars($contentVal); ?></textarea>
                     </div>
+                <?php endif; ?>
+
+                <!-- Media Upload (Part 1.2, 2, or generic) -->
+                <?php if ($part === '1.2' || $part === '2'): ?>
+                    <div class="border-t border-gray-100 pt-6">
+                        <label class="block text-textMuted font-medium mb-2">Image 1 <?php echo ($part==='1.2') ? '(Left)' : ''; ?></label>
+                        <?php if ($mediaVal): ?>
+                            <div class="mb-4">
+                                <p class="text-xs text-gray-500 mb-1">Current Image:</p>
+                                <img src="../../../<?php echo htmlspecialchars($mediaVal); ?>" class="h-40 rounded border border-gray-200 object-contain bg-gray-50">
+                            </div>
+                        <?php endif; ?>
+                        <input type="file" name="image" accept="image/*" class="block w-full text-sm text-gray-500
+                            file:mr-4 file:py-2 file:px-4
+                            file:rounded-full file:border-0
+                            file:text-sm file:font-semibold
+                            file:bg-blue-50 file:text-primary
+                            hover:file:bg-blue-100
+                        "/>
+                    </div>
+                <?php endif; ?>
+
+                <!-- Media Upload 2 (Part 1.2 Only) -->
+                <?php if ($part === '1.2'): ?>
+                    <div class="border-t border-gray-100 pt-6">
+                        <label class="block text-textMuted font-medium mb-2">Image 2 (Right)</label>
+                        <?php if ($mediaVal2): ?>
+                            <div class="mb-4">
+                                <p class="text-xs text-gray-500 mb-1">Current Image 2:</p>
+                                <img src="../../../<?php echo htmlspecialchars($mediaVal2); ?>" class="h-40 rounded border border-gray-200 object-contain bg-gray-50">
+                            </div>
+                        <?php endif; ?>
+                        <input type="file" name="image2" accept="image/*" class="block w-full text-sm text-gray-500
+                            file:mr-4 file:py-2 file:px-4
+                            file:rounded-full file:border-0
+                            file:text-sm file:font-semibold
+                            file:bg-blue-50 file:text-primary
+                            hover:file:bg-blue-100
+                        "/>
+                    </div>
+                <?php endif; ?>
+
+                <div class="pt-6">
+                    <button class="w-full bg-primary hover:bg-primaryHover text-white font-bold py-3 rounded transition duration-200 shadow-lg shadow-indigo-500/20" type="submit">
+                        <?php echo $questionId ? 'Update Question' : 'Add Question'; ?>
+                    </button>
                 </div>
 
-            <?php else: ?>
-                <!-- Standard Fields -->
-                <div>
-                    <label class="block text-textMuted font-medium mb-2">Question / Prompt Text</label>
-                    <textarea class="w-full p-2 rounded border border-gray-300 focus:ring-2 focus:ring-primary" name="content" rows="3" required><?php echo htmlspecialchars($contentVal); ?></textarea>
-                </div>
-            <?php endif; ?>
+            </form>
 
-            <!-- Media Upload (Part 1.2, 2, or generic) -->
-            <?php if ($part === '1.2' || $part === '2'): ?>
-                <div class="border-t border-gray-100 pt-6">
-                    <label class="block text-textMuted font-medium mb-2">Image 1 <?php echo ($part==='1.2') ? '(Left)' : ''; ?></label>
-                    <?php if ($mediaVal): ?>
-                        <div class="mb-2">
-                            <p class="text-xs text-gray-500 mb-1">Current Image:</p>
-                            <img src="../../../<?php echo htmlspecialchars($mediaVal); ?>" class="h-32 rounded border border-gray-200">
-                        </div>
-                    <?php endif; ?>
-                    <input type="file" name="image" accept="image/*" class="block w-full text-sm text-gray-500
-                        file:mr-4 file:py-2 file:px-4
-                        file:rounded-full file:border-0
-                        file:text-sm file:font-semibold
-                        file:bg-blue-50 file:text-primary
-                        hover:file:bg-blue-100
-                    "/>
-                </div>
-            <?php endif; ?>
-
-            <!-- Media Upload 2 (Part 1.2 Only) -->
-            <?php if ($part === '1.2'): ?>
-                <div class="border-t border-gray-100 pt-6">
-                    <label class="block text-textMuted font-medium mb-2">Image 2 (Right)</label>
-                    <?php if ($mediaVal2): ?>
-                        <div class="mb-2">
-                            <p class="text-xs text-gray-500 mb-1">Current Image 2:</p>
-                            <img src="../../../<?php echo htmlspecialchars($mediaVal2); ?>" class="h-32 rounded border border-gray-200">
-                        </div>
-                    <?php endif; ?>
-                    <input type="file" name="image2" accept="image/*" class="block w-full text-sm text-gray-500
-                        file:mr-4 file:py-2 file:px-4
-                        file:rounded-full file:border-0
-                        file:text-sm file:font-semibold
-                        file:bg-blue-50 file:text-primary
-                        hover:file:bg-blue-100
-                    "/>
-                </div>
-            <?php endif; ?>
-
-            <div class="pt-6">
-                <button class="w-full bg-primary hover:bg-primaryHover text-white font-bold py-3 rounded transition duration-200" type="submit">
-                    <?php echo $questionId ? 'Update Question' : 'Add Question'; ?>
-                </button>
-            </div>
-
-        </form>
-    </div>
+            <div class="h-10"></div> <!-- Bottom Spacer -->
+        </div>
+    </main>
 
 </body>
 </html>

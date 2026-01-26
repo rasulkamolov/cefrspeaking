@@ -72,8 +72,8 @@ $pendingCount = $submissionCount - $gradedCount;
                     <a href="manage_tests.php" class="block w-full py-3 px-4 bg-gray-50 hover:bg-gray-100 rounded text-center transition border border-gray-200 text-textMain font-medium">
                         Manage Tests
                     </a>
-                     <a href="#" class="block w-full py-3 px-4 bg-gray-50 rounded text-center transition border border-gray-200 text-textMuted cursor-not-allowed">
-                        Manage Users (Coming Soon)
+                     <a href="manage_users.php" class="block w-full py-3 px-4 bg-gray-50 hover:bg-gray-100 rounded text-center transition border border-gray-200 text-textMain font-medium">
+                        Manage Users
                     </a>
                 </div>
             </div>

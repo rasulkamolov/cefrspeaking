@@ -57,10 +57,10 @@ if ($grade) {
     <title>Oxford CEFR Speaking - Exam Details</title>
     <?php require_once __DIR__ . '/../../includes/theme.php'; ?>
 </head>
-<body class="bg-background text-textMain font-sans pb-24">
+<body class="bg-background text-textMain font-sans flex flex-col h-screen-dvh overflow-hidden">
 
     <!-- Top Header -->
-    <header class="bg-primary text-white pt-safe sticky top-0 z-20 shadow-md">
+    <header class="bg-primary text-white pt-safe z-20 shadow-md flex-none">
         <div class="px-6 py-4 flex justify-between items-center">
             <div class="flex items-center">
                 <a href="history.php" class="mr-4 text-indigo-200 hover:text-white">
@@ -72,7 +72,7 @@ if ($grade) {
         </div>
     </header>
 
-    <main class="container mx-auto px-4 mt-6 max-w-lg">
+    <main class="container mx-auto px-4 mt-6 max-w-lg flex-1 overflow-y-auto pb-24">
 
         <!-- Summary Card -->
         <div class="bg-surface p-5 rounded-2xl shadow-sm border border-gray-100 mb-6">
@@ -155,7 +155,7 @@ if ($grade) {
     </main>
 
     <!-- Bottom Nav -->
-    <div class="fixed bottom-0 w-full bg-surface/90 backdrop-blur-md border-t border-gray-200 flex justify-around items-center px-2 py-2 pb-safe z-30 shadow-[0_-4px_6px_-1px_rgba(0,0,0,0.05)]">
+    <div class="fixed bottom-0 w-full bg-surface/90 backdrop-blur-md border-t border-gray-200 flex justify-around items-center px-2 py-2 pb-safe z-30 shadow-[0_-4px_6px_-1px_rgba(0,0,0,0.05)] flex-none">
         <a href="dashboard.php" class="flex flex-col items-center p-2 text-textMuted hover:text-accent w-16 transition">
             <svg class="w-6 h-6 mb-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"></path></svg>
             <span class="text-[10px] font-medium">Home</span>

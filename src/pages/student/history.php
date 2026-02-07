@@ -21,17 +21,17 @@ $submissions = $stmt->fetchAll();
     <title>Oxford CEFR - History</title>
     <?php require_once __DIR__ . '/../../includes/theme.php'; ?>
 </head>
-<body class="bg-background text-textMain font-sans pb-24">
+<body class="bg-background text-textMain font-sans flex flex-col h-screen-dvh overflow-hidden">
 
     <!-- Top Header -->
-    <header class="bg-primary text-white pt-safe sticky top-0 z-20 shadow-md">
+    <header class="bg-primary text-white pt-safe z-20 shadow-md flex-none">
         <div class="px-6 py-4 flex justify-between items-center">
             <h1 class="text-xl font-bold tracking-tight">History</h1>
              <div class="w-8"></div> <!-- Spacer for center alignment visual -->
         </div>
     </header>
 
-    <main class="container mx-auto px-4 mt-6 max-w-lg">
+    <main class="container mx-auto px-4 mt-6 max-w-lg flex-1 overflow-y-auto pb-24">
         <?php if (count($submissions) > 0): ?>
             <div class="space-y-4">
                 <?php foreach ($submissions as $sub):
@@ -93,7 +93,7 @@ $submissions = $stmt->fetchAll();
     </main>
 
     <!-- Bottom Nav -->
-    <div class="fixed bottom-0 w-full bg-surface/90 backdrop-blur-md border-t border-gray-200 flex justify-around items-center px-2 py-2 pb-safe z-30 shadow-[0_-4px_6px_-1px_rgba(0,0,0,0.05)]">
+    <div class="fixed bottom-0 w-full bg-surface/90 backdrop-blur-md border-t border-gray-200 flex justify-around items-center px-2 py-2 pb-safe z-30 shadow-[0_-4px_6px_-1px_rgba(0,0,0,0.05)] flex-none">
         <a href="dashboard.php" class="flex flex-col items-center p-2 text-textMuted hover:text-accent w-16 transition">
             <svg class="w-6 h-6 mb-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"></path></svg>
             <span class="text-[10px] font-medium">Home</span>

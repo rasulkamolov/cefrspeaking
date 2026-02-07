@@ -37,7 +37,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         mkdir($uploadDir, 0777, true);
     }
 
-    $fileName = 'sub_' . $submissionId . '_q_' . $questionId . '_' . time() . '.webm';
+    // Determine extension from uploaded file name or mime type
+    $ext = pathinfo($_FILES['audio']['name'], PATHINFO_EXTENSION);
+    if (!$ext || !in_array($ext, ['webm', 'mp4', 'ogg', 'wav'])) {
+        $ext = 'webm'; // Fallback
+    }
+
+    $fileName = 'sub_' . $submissionId . '_q_' . $questionId . '_' . time() . '.' . $ext;
     $filePath = $uploadDir . $fileName;
 
     // DB Path (relative to src root)

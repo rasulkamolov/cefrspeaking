@@ -138,7 +138,13 @@ if ($grade) {
                     </div>
                     <div class="bg-gray-50 rounded-xl p-2">
                         <audio controls class="w-full">
-                            <source src="../../<?php echo htmlspecialchars($ans['audio_path']); ?>" type="audio/webm">
+                            <?php
+                                $ext = pathinfo($ans['audio_path'], PATHINFO_EXTENSION);
+                                $mime = 'audio/webm';
+                                if ($ext === 'mp4') $mime = 'audio/mp4';
+                                elseif ($ext === 'ogg') $mime = 'audio/ogg';
+                            ?>
+                            <source src="../../<?php echo htmlspecialchars($ans['audio_path']); ?>" type="<?php echo $mime; ?>">
                             Your browser does not support the audio element.
                         </audio>
                     </div>

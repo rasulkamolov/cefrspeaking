@@ -7,6 +7,7 @@ let mediaRecorder;
 let audioChunks = [];
 let isRecording = false;
 let isPrepTime = false;
+let mimeType = 'audio/webm'; // Default
 
 // UI Elements
 const questionArea = document.getElementById('question-area');
@@ -37,6 +38,22 @@ function setProgress(percent) {
 }
 
 function init() {
+    // Determine supported mime types for iOS/Safari compatibility
+    const types = [
+        "audio/mp4",
+        "audio/webm;codecs=opus",
+        "audio/webm",
+        "audio/ogg;codecs=opus"
+    ];
+
+    for (const type of types) {
+        if (MediaRecorder.isTypeSupported(type)) {
+            mimeType = type;
+            break;
+        }
+    }
+    console.log("Using MIME type:", mimeType);
+
     // Check permission immediately but don't alert aggressively
     navigator.mediaDevices.getUserMedia({ audio: true })
         .then(stream => {
@@ -49,22 +66,33 @@ function init() {
 }
 
 function setupRecorder(stream) {
-    mediaRecorder = new MediaRecorder(stream);
+    try {
+        mediaRecorder = new MediaRecorder(stream, { mimeType: mimeType });
+    } catch (e) {
+        console.warn("Failed to create MediaRecorder with specific mimeType, falling back to default.");
+        mediaRecorder = new MediaRecorder(stream);
+    }
 
     mediaRecorder.ondataavailable = event => {
         audioChunks.push(event.data);
     };
 
     mediaRecorder.onstop = () => {
-        const audioBlob = new Blob(audioChunks, { type: 'audio/webm' });
+        // Use the same mimeType for the blob
+        const audioBlob = new Blob(audioChunks, { type: mimeType });
         uploadAudio(audioBlob);
         audioChunks = [];
     };
 }
 
 async function uploadAudio(blob) {
+    // Determine extension based on mimeType
+    let ext = 'webm';
+    if (mimeType.includes('mp4')) ext = 'mp4';
+    else if (mimeType.includes('ogg')) ext = 'ogg';
+
     const formData = new FormData();
-    formData.append('audio', blob, 'recording.webm');
+    formData.append('audio', blob, `recording.${ext}`);
     formData.append('submission_id', submissionId);
     formData.append('question_id', questions[currentQuestionIndex].id);
 

@@ -1,0 +1,9 @@
+<?php
+// src/includes/config.php
+// Rename this file to config.php and update the credentials
+
+$db_host = '127.0.0.1'; // or localhost
+$db_name = 'jules_db';  // Your database name
+$db_user = 'jules';     // Your database user
+$db_pass = 'password';  // Your database password
+?>
